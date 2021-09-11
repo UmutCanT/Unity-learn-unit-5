@@ -46,7 +46,7 @@ public class Target : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (!gameManager.IsGameOver)
+        if (!gameManager.IsGameOver && !gameManager.IsGamePaused)
         {
             Destroy(gameObject);
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);

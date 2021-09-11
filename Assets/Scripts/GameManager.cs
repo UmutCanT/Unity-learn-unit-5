@@ -20,11 +20,14 @@ public class GameManager : MonoBehaviour
     Button restartButton;
     [SerializeField]
     GameObject titleScreen;
+    [SerializeField]
+    GameObject pausePanel;
 
     int score;
     int playerLives;
     float spawnRate = 2f;
     bool isGameOver;
+    bool isGamePaused;
 
     public bool IsGameOver
     {
@@ -33,6 +36,40 @@ public class GameManager : MonoBehaviour
             return isGameOver;
         }
     }
+
+    public bool IsGamePaused
+    {
+        get
+        {
+            return isGamePaused;
+        }
+    }
+
+    private void Update()
+    {
+        PauseController();
+    }
+
+    void PauseController()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isGamePaused)
+            {
+                Time.timeScale = 0f;
+                pausePanel.SetActive(true);
+                isGamePaused = true;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                pausePanel.SetActive(false);
+                isGamePaused = false;
+            }
+           
+        }
+    }
+
     IEnumerator SpawnTarget()
     {
         while (!isGameOver)
@@ -75,6 +112,7 @@ public class GameManager : MonoBehaviour
         playerLives = 3;
         titleScreen.gameObject.SetActive(false);
         isGameOver = false;
+        isGamePaused = false;
         score = 0;
         spawnRate /= difficulty;
         StartCoroutine(SpawnTarget());
