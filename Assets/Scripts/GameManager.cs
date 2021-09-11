@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     GameObject titleScreen;
     [SerializeField]
     GameObject pausePanel;
+    [SerializeField]
+    GameObject swiper;
 
     int score;
     int playerLives;
@@ -45,7 +47,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void StartGame(int difficulty)
+    {
+        titleScreen.gameObject.SetActive(false);
+        swiper.gameObject.SetActive(true);
+        playerLives = 3;        
+        isGameOver = false;
+        isGamePaused = false;
+        score = 0;
+        spawnRate /= difficulty;
+        StartCoroutine(SpawnTarget());
+        UpdateLives(0);
+        UpdateScore(0);
+    }
+
+    void Update()
     {
         PauseController();
     }
@@ -104,20 +120,8 @@ public class GameManager : MonoBehaviour
     {
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
+        swiper.gameObject.SetActive(false);
         isGameOver = true;
-    }
-
-    public void StartGame(int difficulty)
-    {
-        playerLives = 3;
-        titleScreen.gameObject.SetActive(false);
-        isGameOver = false;
-        isGamePaused = false;
-        score = 0;
-        spawnRate /= difficulty;
-        StartCoroutine(SpawnTarget());
-        UpdateLives(0);
-        UpdateScore(0);
     }
 
     public void RestartGame()

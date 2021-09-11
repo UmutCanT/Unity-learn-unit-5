@@ -44,7 +44,7 @@ public class Target : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    public void DestroyTarget()
     {
         if (!gameManager.IsGameOver && !gameManager.IsGamePaused)
         {
@@ -52,12 +52,12 @@ public class Target : MonoBehaviour
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
             if (!gameObject.CompareTag("Bad"))
             {
-                gameManager.UpdateScore(pointValue);               
+                gameManager.UpdateScore(pointValue);
             }
             else
             {
                 gameManager.UpdateLives(1);
-            }           
+            }
         }
     }
 
